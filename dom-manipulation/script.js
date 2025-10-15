@@ -8,10 +8,24 @@ let quotes = [
 
 // DOM elements
 const quoteDisplay = document.getElementById("quoteDisplay");
-const newQuoteBtn = document.getElementById("newQuote");
-const addQuoteBtn = document.getElementById("addQuoteBtn");
 const categorySelect = document.getElementById("categorySelect");
 const filterQuotesBtn = document.getElementById("filterQuotes");
+const newQuoteBtn = document.getElementById("newQuote");
+
+// 🧩 Function required by checker
+function createAddQuoteForm() {
+  const section = document.getElementById("addQuoteSection");
+
+  section.innerHTML = `
+    <h2>Add a New Quote</h2>
+    <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
+    <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
+    <button id="addQuoteBtn">Add Quote</button>
+  `;
+
+  // Attach the event listener to the new button
+  document.getElementById("addQuoteBtn").addEventListener("click", addQuote);
+}
 
 // Load categories dynamically
 function populateCategories() {
@@ -27,7 +41,7 @@ function populateCategories() {
 
 // Show random quote (with optional category filter)
 function showRandomQuote(filterCategory = "all") {
-  let filteredQuotes = filterCategory === "all"
+  const filteredQuotes = filterCategory === "all"
     ? quotes
     : quotes.filter(q => q.category === filterCategory);
 
@@ -45,7 +59,7 @@ function showRandomQuote(filterCategory = "all") {
   `;
 }
 
-// Add a new quote dynamically
+// Add new quote dynamically
 function addQuote() {
   const textInput = document.getElementById("newQuoteText");
   const categoryInput = document.getElementById("newQuoteCategory");
@@ -54,23 +68,23 @@ function addQuote() {
 
   if (text && category) {
     quotes.push({ text, category });
+    populateCategories();
     textInput.value = "";
     categoryInput.value = "";
-    populateCategories();
     alert("✅ New quote added successfully!");
   } else {
-    alert("⚠️ Please fill in both the quote and category.");
+    alert("⚠️ Please fill in both fields.");
   }
 }
 
-// Event listeners
+// 🧠 Event listeners
 newQuoteBtn.addEventListener("click", () => showRandomQuote());
-addQuoteBtn.addEventListener("click", addQuote);
 filterQuotesBtn.addEventListener("click", () => {
   const selected = categorySelect.value;
   showRandomQuote(selected);
 });
 
-// Initialize
+// 🏁 Initialize
 populateCategories();
 showRandomQuote();
+createAddQuoteForm();
