@@ -3,70 +3,31 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Dynamic Quote Generator — Sync Demo</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Dynamic Quote Generator — Server Sync</title>
   <style>
-    /* Minimal inline styles for the demo */
-    body { font-family: Arial, sans-serif; padding: 28px; background:#f5f7fb; color:#222; }
-    h1 { margin-bottom: 12px; }
-    .controls, .sync-controls { margin: 12px 0; }
-    .quote-box { background:#fff; padding:20px; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.06); max-width:700px; margin-bottom:12px; }
-    .banner { display:none; padding:12px; border-radius:6px; margin-bottom:12px; }
-    .banner.info { background:#eef6ff; color:#0b66b2; border:1px solid #cfe6ff; }
-    .banner.warn { background:#fff6e6; color:#7a4b00; border:1px solid #ffeecf; }
-    .btn { padding:8px 14px; border-radius:6px; border:0; background:#2b7aee; color:#fff; cursor:pointer; }
-    .btn.ghost { background:#eef1ff; color:#2b7aee; border:1px solid #d8e0ff; }
-    .small { font-size:0.9rem; color:#555; }
-    .file-controls { margin-top:10px; }
-    #syncStatus { font-size:0.9rem; color:#555; margin-left:8px; }
-    .sync-controls { display:flex; gap:8px; align-items:center; }
-    .conflict-details { margin-top:8px; text-align:left; max-width:700px; background:#fff; padding:12px; border-radius:6px; box-shadow:0 4px 12px rgba(0,0,0,0.04); }
-    label { display:inline-block; margin-right:8px; }
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f4f6fa; color: #222; }
+    h1 { margin-bottom: 15px; }
+    .btn { padding: 8px 14px; border: none; border-radius: 6px; cursor: pointer; background: #0078ff; color: white; margin: 4px; }
+    .btn.secondary { background: #e1e7f5; color: #0078ff; border: 1px solid #c0d0f2; }
+    #quoteBox { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); max-width: 700px; margin-bottom: 10px; }
+    #banner { display:none; padding:10px; margin-bottom:10px; border-radius:6px; }
+    #banner.info { background:#e7f3ff; color:#004085; }
+    #banner.warn { background:#fff3cd; color:#856404; }
   </style>
 </head>
 <body>
-  <h1>Dynamic Quote Generator — Sync & Conflict Resolution</h1>
+  <h1>Dynamic Quote Generator — Server Sync</h1>
 
-  <!-- Sync Banner -->
-  <div id="syncBanner" class="banner info" role="status" aria-live="polite"></div>
+  <div id="banner" class="info"></div>
 
-  <!-- Quote Display -->
-  <div id="quoteDisplay" class="quote-box">Loading...</div>
-
-  <!-- Primary Controls -->
-  <div class="controls">
-    <button id="newQuote" class="btn">Show Random Quote</button>
+  <div id="quoteBox">
+    <p id="quoteText">Loading...</p>
+    <small id="quoteCategory"></small>
   </div>
 
-  <!-- Add Quote -->
-  <div id="addQuoteSection" class="add-quote-wrapper" style="max-width:700px;">
-    <h3>Add Quote</h3>
-    <input id="newQuoteText" placeholder="Quote text" style="width:60%;padding:8px;border-radius:6px;border:1px solid #ddd" />
-    <input id="newQuoteCategory" placeholder="Category" style="width:25%;padding:8px;border-radius:6px;border:1px solid #ddd;margin-left:8px" />
-    <button id="addQuoteBtn" class="btn" style="margin-left:8px">Add Quote</button>
-
-    <div class="file-controls">
-      <label for="importFile">Import JSON:</label>
-      <input id="importFile" type="file" accept=".json" />
-      <button id="exportBtn" class="btn ghost">Export Quotes</button>
-    </div>
-  </div>
-
-  <!-- Sync controls -->
-  <div class="sync-controls" style="margin-top:18px;">
-    <button id="manualSyncBtn" class="btn ghost">Sync Now</button>
-    <button id="toggleAutoSyncBtn" class="btn">Start Auto Sync</button>
-    <span id="syncStatus"></span>
-  </div>
-
-  <!-- Conflict details and resolution actions -->
-  <div id="conflictArea" style="max-width:700px;margin-top:12px; display:none;">
-    <div class="conflict-details" id="conflictDetails"></div>
-    <div style="margin-top:8px;">
-      <button id="applyServerBtn" class="btn">Apply Server Changes (Server Wins)</button>
-      <button id="keepLocalBtn" class="btn ghost">Keep Local Data</button>
-    </div>
-  </div>
+  <button id="newQuote" class="btn">Show New Quote</button>
+  <button id="addQuoteBtn" class="btn secondary">Add Quote</button>
+  <button id="syncBtn" class="btn secondary">Sync Quotes</button>
 
   <script src="script.js"></script>
 </body>
