@@ -1,44 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dynamic Quote Generator</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <h1>Dynamic Quote Generator</h1>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dynamic Quote Generator — Sync Demo</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Minimal inline styles for the demo */
+    body { font-family: Arial, sans-serif; padding: 28px; background:#f5f7fb; color:#222; }
+    h1 { margin-bottom: 12px; }
+    .controls, .sync-controls { margin: 12px 0; }
+    .quote-box { background:#fff; padding:20px; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.06); max-width:700px; margin-bottom:12px; }
+    .banner { display:none; padding:12px; border-radius:6px; margin-bottom:12px; }
+    .banner.info { background:#eef6ff; color:#0b66b2; border:1px solid #cfe6ff; }
+    .banner.warn { background:#fff6e6; color:#7a4b00; border:1px solid #ffeecf; }
+    .btn { padding:8px 14px; border-radius:6px; border:0; background:#2b7aee; color:#fff; cursor:pointer; }
+    .btn.ghost { background:#eef1ff; color:#2b7aee; border:1px solid #d8e0ff; }
+    .small { font-size:0.9rem; color:#555; }
+    .file-controls { margin-top:10px; }
+    #syncStatus { font-size:0.9rem; color:#555; margin-left:8px; }
+    .sync-controls { display:flex; gap:8px; align-items:center; }
+    .conflict-details { margin-top:8px; text-align:left; max-width:700px; background:#fff; padding:12px; border-radius:6px; box-shadow:0 4px 12px rgba(0,0,0,0.04); }
+    label { display:inline-block; margin-right:8px; }
+  </style>
+</head>
+<body>
+  <h1>Dynamic Quote Generator — Sync & Conflict Resolution</h1>
 
-    <div id="quoteContainer">
-      <div id="quoteDisplay"></div>
-      <button id="newQuote">Show New Quote</button>
+  <!-- Sync Banner -->
+  <div id="syncBanner" class="banner info" role="status" aria-live="polite"></div>
+
+  <!-- Quote Display -->
+  <div id="quoteDisplay" class="quote-box">Loading...</div>
+
+  <!-- Primary Controls -->
+  <div class="controls">
+    <button id="newQuote" class="btn">Show Random Quote</button>
+  </div>
+
+  <!-- Add Quote -->
+  <div id="addQuoteSection" class="add-quote-wrapper" style="max-width:700px;">
+    <h3>Add Quote</h3>
+    <input id="newQuoteText" placeholder="Quote text" style="width:60%;padding:8px;border-radius:6px;border:1px solid #ddd" />
+    <input id="newQuoteCategory" placeholder="Category" style="width:25%;padding:8px;border-radius:6px;border:1px solid #ddd;margin-left:8px" />
+    <button id="addQuoteBtn" class="btn" style="margin-left:8px">Add Quote</button>
+
+    <div class="file-controls">
+      <label for="importFile">Import JSON:</label>
+      <input id="importFile" type="file" accept=".json" />
+      <button id="exportBtn" class="btn ghost">Export Quotes</button>
     </div>
+  </div>
 
-    <hr />
+  <!-- Sync controls -->
+  <div class="sync-controls" style="margin-top:18px;">
+    <button id="manualSyncBtn" class="btn ghost">Sync Now</button>
+    <button id="toggleAutoSyncBtn" class="btn">Start Auto Sync</button>
+    <span id="syncStatus"></span>
+  </div>
 
-    <h2>Add New Quote</h2>
-    <input type="text" id="newQuoteText" placeholder="Enter quote text" />
-    <input type="text" id="newQuoteCategory" placeholder="Enter category" />
-    <button id="addQuoteBtn">Add Quote</button>
+  <!-- Conflict details and resolution actions -->
+  <div id="conflictArea" style="max-width:700px;margin-top:12px; display:none;">
+    <div class="conflict-details" id="conflictDetails"></div>
+    <div style="margin-top:8px;">
+      <button id="applyServerBtn" class="btn">Apply Server Changes (Server Wins)</button>
+      <button id="keepLocalBtn" class="btn ghost">Keep Local Data</button>
+    </div>
+  </div>
 
-    <hr />
-
-    <h2>Filter Quotes</h2>
-    <select id="categoryFilter" onchange="filterQuotes()">
-      <option value="all">All Categories</option>
-    </select>
-
-    <hr />
-
-    <h2>Import / Export Quotes</h2>
-    <button id="exportQuotes" onclick="exportToJsonFile()">Export Quotes</button>
-    <input
-      type="file"
-      id="importFile"
-      accept=".json"
-      onchange="importFromJsonFile(event)"
-    />
-
-    <script src="script.js"></script>
-  </body>
+  <script src="script.js"></script>
+</body>
 </html>
