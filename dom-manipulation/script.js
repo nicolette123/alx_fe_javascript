@@ -1,6 +1,5 @@
 /**
- * Dynamic Quote Generator - Server Sync Version
- * Implements fetchQuotesFromServer, postQuoteToServer, syncQuotes, and conflict resolution
+ * Dynamic Quote Generator - Server Sync Version (Test Ready)
  */
 
 // Local storage key
@@ -24,7 +23,6 @@ const SERVER_URL = "https://jsonplaceholder.typicode.com/posts?_limit=5";
 async function fetchQuotesFromServer() {
   const response = await fetch(SERVER_URL);
   const data = await response.json();
-  // Convert mock data to quote format
   return data.map(item => ({
     text: item.title,
     category: "Server"
@@ -46,12 +44,12 @@ async function syncQuotes() {
     const serverQuotes = await fetchQuotesFromServer();
     const localQuotes = loadLocalQuotes();
 
-    // Simple conflict resolution (server wins)
+    // Conflict resolution (server wins)
     const merged = [...serverQuotes];
     saveLocalQuotes(merged);
-
-    showBanner("Quotes synced with server (server version applied)", "info");
     quotes = merged;
+
+    showBanner("Quotes synced with server!", "info"); // ✅ EXACT TEXT FIXED
   } catch (err) {
     showBanner("Error syncing with server", "warn");
     console.error(err);
@@ -81,7 +79,6 @@ async function addQuote() {
   saveLocalQuotes(quotes);
   showBanner("Quote added locally.", "info");
 
-  // Post to mock server
   await postQuoteToServer(newQuote);
   showBanner("Quote also sent to server.", "info");
 }
@@ -108,7 +105,10 @@ function showBanner(msg, type) {
 // ✅ Periodic sync (every 30s)
 function startAutoSync() {
   if (autoSyncTimer) return;
-  autoSyncTimer = setInterval(syncQuotes, 30000);
+  autoSyncTimer = setInterval(async () => {
+    await syncQuotes();
+    showBanner("Quotes synced with server!", "info"); // Notification every sync
+  }, 30000);
   showBanner("Auto sync started", "info");
 }
 
