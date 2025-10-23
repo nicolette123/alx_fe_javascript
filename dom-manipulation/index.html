@@ -9,38 +9,29 @@
 <body>
   <h1>Dynamic Quote Generator</h1>
 
-  <!-- Category Section -->
+  <!-- ✅ Category Filter Section -->
   <div id="categorySection">
-    <label for="categorySelect">Choose a category:</label>
-    <select id="categorySelect"></select>
-    <button id="filterQuotes">Filter Quotes</button>
+    <label for="categoryFilter">Choose a category:</label>
+    <select id="categoryFilter" onchange="filterQuotes()">
+      <option value="All Categories">All Categories</option>
+      <!-- Categories will be dynamically added -->
+    </select>
   </div>
 
-  <!-- Quote Display -->
+  <!-- ✅ Quote Display -->
   <div id="quoteDisplay" class="quote-box"></div>
 
-  <!-- Buttons -->
+  <!-- ✅ Buttons -->
   <div class="controls">
     <button id="newQuote">Show Random Quote</button>
   </div>
 
-  <!-- Add Quote Section -->
+  <!-- ✅ Add Quote Form -->
   <div id="addQuoteSection">
     <h2>Add a New Quote</h2>
     <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
     <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
     <button id="addQuoteBtn">Add Quote</button>
-  </div>
-
-  <!-- ✅ Import/Export Section -->
-  <div id="importExportSection">
-    <h2>Import/Export Quotes</h2>
-
-    <!-- Export Button (grader looks for this text) -->
-    <button id="exportQuotes" onclick="exportToJsonFile()">Export Quotes</button>
-
-    <!-- Import File Input -->
-    <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
   </div>
 
   <script src="script.js"></script>
